@@ -1,0 +1,242 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+ 	<title>web_8</title>
+ 	<style type="text/css">
+ 		*{
+ 			margin: 0px;
+ 			padding: 0px;
+ 		}
+ 		ul,li{
+ 			list-style: none;
+ 		}
+ 		.big{
+ 			width: 1200px;
+ 			height: 383px;
+ 			margin: 0px auto;
+ 			border :1px solid red;
+ 			position: relative;
+ 			overflow: hidden;
+ 		}
+ 		.top{
+ 			height: 17px;
+ 			background-color:#eee;
+ 		}
+ 		.ims{
+ 			height: 17px;
+ 			width: 17px;
+ 			margin-left: 300px;
+ 			display: inline-block;
+ 			float: left;
+ 			line-height: 17px;
+ 		}
+ 		.world{
+ 			height: 17px;
+ 			width: 900px;
+ 			margin-left:15px;
+ 			display: inline-block;
+ 			float: left;
+ 			line-height: 17px;
+ 		}
+ 		#p{
+ 			font-size: 12px;
+ 			color: red;
+ 			line-height: 17px;
+ 		}
+ 		.kong{
+ 			height: 10px;
+ 			width: 900px;
+ 		}
+ 		.botten{
+ 			width: 8400px;
+ 			height: 383;
+ 			position: absolute;
+ 			overflow: hidden;
+ 			left:-1200px;
+
+ 		}
+ 		.slide{
+ 			height: 383px;
+ 			width: 1200px;
+ 			overflow: hidden;
+ 			float: left;
+ 		}
+ 		.big>span{
+ 			display: block;
+ 			width: 30px;
+ 			height: 50px;
+ 			text-align: center;
+ 			cursor: pointer;
+ 			color: #eee;
+ 			top: 175px;
+ 			line-height: 50px;
+ 			background: red;
+ 			font-size: 30px;
+ 			position: absolute;
+ 			opacity: 0;
+ 		}
+ 		#left{
+ 			left: 30px;
+ 		}
+ 		#right{
+ 			right: 30px;
+ 		}
+ 		.nav{
+ 			position: absolute;
+ 			left: 500px;
+ 			bottom:20px;
+ 		}
+ 		.nav>li{
+ 			float: left;
+ 			width: 20px;
+ 			height: 20px;
+ 			background: #eee;
+ 			cursor: pointer;
+ 			margin: 0 10px;
+ 			border-radius: 50%;
+ 			list-style-type: none;
+ 		}
+ 		.nav .active{
+ 			background: red;
+ 		}
+
+ 	</style>
+ </head>
+ <body>
+ 	<div class="top" id="top">
+ 			<div class = "ims">
+ 				<img src="images/a15.png"> 
+ 			</div>
+ 			<div class="world">
+ 				<marquee behavior = "scroll" direction = "left" id="p">[温馨提示]最近有不少不法分子在网上骗人，请大家注意！！！</marquee>
+  			</div>
+ 	</div>
+ 	<div class="kong"> </div>
+ 	<div class="big" id="big">
+ 		<div class="botten" id="botten">
+ 			<div class="slide"><img src="images/b5.png"></div>
+ 			<div class="slide"><img src="images/b1.png"></div>
+ 			<div class="slide"><img src="images/b2.png"></div>
+ 			<div class="slide"><img src="images/b3.png"></div>
+ 			<div class="slide"><img src="images/b4.png"></div>
+ 			<div class="slide"><img src="images/b5.png"></div>
+ 			<div class="slide"><img src="images/b1.png"></div>
+ 		</div>
+ 		<span id="left"><</span>
+ 		<span id="right">></span>
+ 		<ul class="nav" id="nav">
+ 			<li class="active">&nbsp1</li>
+ 			<li>&nbsp2</li>
+ 			<li>&nbsp3</li>
+ 			<li>&nbsp4</li>
+ 			<li>&nbsp5</li>
+  		</ul>
+ 	</div>
+ 	<script type="text/javascript">
+ 		var big = document.getElementById("big");
+ 		var oNavlist = document.getElementById('nav').children;
+ 		var botten = document.getElementById('botten');
+ 		var nav = document.getElementById("nav");
+ 		var left = document.getElementById("left");
+ 		var right = document.getElementById("right");
+ 		var i =1;
+ 		var timer ;
+ 		var isMoving = false;
+
+ 		function next(){
+ 			i++;
+ 			navChange();
+		    animate(botten,{left:-1200*i},function(){
+				if(i===6){
+					botten.style.left = "-1200px";
+					i = 1;
+				}
+			});
+ 		}
+ 		function pre(){
+ 			i--;
+ 			navChange();
+			 animate(botten,{left:-1200*i},function(){
+				if(i===0){
+					botten.style.left = "-6000px";
+					i = 5;
+				}
+			});
+ 		}
+
+ 		big.onmouseover = function(){
+ 			animate(left,{opacity:50})
+ 			animate(right,{opacity:50})
+ 			clearInterval(timer)
+ 		}
+ 		big.onmouseout = function(){
+ 			animate(left,{opacity:0})
+ 			animate(right,{opacity:0})
+ 			timer = setInterval(next,3000)
+ 		}
+ 		left.onclick = next;
+ 		right.onclick = pre;
+
+ 		//按钮
+ 		for(var j = 0;j<oNavlist.length;j++){
+ 			oNavlist[j].idx = j;
+ 			oNavlist[j].onclick = function(){
+ 				i = this.idx+1;
+ 				navChange();
+ 				animate(botten,{left:-1200*i});
+ 			}
+ 		}
+ 		//变红
+ 		function navChange(){
+ 			for(var j = 0;j<oNavlist.length;j++){
+ 				oNavlist[j].className = ' ';
+ 			}
+ 			if(i === 6){
+ 				oNavlist[0].className = 'active';
+ 			}else if(i===0){
+ 				oNavlist[4].className = 'active';
+ 			}else{
+ 				oNavlist[i-1].className = 'active';
+ 			}
+ 		}
+
+
+	function getStyle(obj, attr){
+		if(obj.currentStyle){
+			return obj.currentStyle[attr];
+		} else {
+			return getComputedStyle(obj, null)[attr];
+		}
+	}
+	function animate(obj,json,callback){
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function(){
+			var isStop = true;
+			for(var attr in json){
+				var now = 0;
+				if(attr == 'opacity'){
+					now = parseInt(getStyle(obj,attr)*100);
+				}else{
+					now = parseInt(getStyle(obj,attr));
+				}
+				var speed = (json[attr] - now) / 8;
+				speed = speed>0?Math.ceil(speed):Math.floor(speed);
+				var cur = now + speed;
+				if(attr == 'opacity'){
+					obj.style[attr] = cur / 100;
+				}else{
+					obj.style[attr] = cur + 'px';
+				}
+				if(json[attr] !== cur){
+					isStop = false;
+				}
+			}
+			if(isStop){
+				clearInterval(obj.timer);
+				callback&&callback();
+			}
+		}, 30)
+	}
+ 	</script>
+ </body>
+ </html>
